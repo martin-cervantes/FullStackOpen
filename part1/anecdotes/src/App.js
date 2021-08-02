@@ -12,14 +12,26 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState([0, 0, 0, 0, 0, 0, 0])
 
   const handleClick = () => {
     setSelected(selected === anecdotes.length - 1 ? 0 : selected + 1)
   }
 
+  const handleVote = () => {
+    setPoints(
+      [...points.slice(0, selected),
+      ...[points[selected] += 1],
+      ...points.slice(selected + 1)]
+    )
+  }
+
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
+      <p>{anecdotes[selected]} {points[selected]} Votes</p>
+
+      <button onClick={handleVote}>Vote</button>
+
       <button onClick={handleClick}>Next Anecdote</button>
     </div>
   )
