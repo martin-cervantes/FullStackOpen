@@ -25,8 +25,10 @@ const Content = ({ parts }) => {
 }
 
 const Total = ({ parts }) => {
+  const total = parts.reduce((t, p) => t + p.exercises, 0);
+
   return (
-    <strong>Total of exercises { parts.reduce((t, p) => t + p.exercises, 0) }</strong>
+    <strong>Total of exercises { total }</strong>
   )
 }
 
