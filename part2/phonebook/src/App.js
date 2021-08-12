@@ -6,10 +6,23 @@ const App = () => {
   ])
   const [ newName, setNewName ] = useState('')
 
+  const includesName = () => {
+    for (let i = 0; i < persons.length; i += 1) {
+      if (persons[i].name === newName) return true
+    }
+
+    return false
+  }
+
   const addName = (event) => {
     event.preventDefault()
-    setPersons([...persons, { name: event.target.name.value }])
-    setNewName('')
+
+    if (includesName()) {
+      alert(`${newName} is already added to phonebook`)
+    } else {
+      setPersons([...persons, { name: event.target.name.value }])
+      setNewName('')
+    }
   }
 
   const handleChange = (event) => {
