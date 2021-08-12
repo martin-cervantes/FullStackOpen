@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-123-45-67' }
   ])
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
   const includesName = () => {
     for (let i = 0; i < persons.length; i += 1) {
@@ -20,13 +21,18 @@ const App = () => {
     if (includesName()) {
       alert(`${newName} is already added to phonebook`)
     } else {
-      setPersons([...persons, { name: event.target.name.value }])
+      setPersons([...persons, { name: event.target.name.value, number: event.target.number.value }])
       setNewName('')
+      setNewNumber('')
     }
   }
 
-  const handleChange = (event) => {
+  const handleChangeName = (event) => {
     setNewName(event.target.value)
+  }
+
+  const handleChangeNumber = (event) => {
+    setNewNumber(event.target.value)
   }
 
   return (
@@ -41,7 +47,18 @@ const App = () => {
             id="name"
             name="name"
             value={newName}
-            onChange={handleChange}
+            onChange={handleChangeName}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="number">Number:</label>
+
+          <input
+            id="number"
+            name="number"
+            value={newNumber}
+            onChange={handleChangeNumber}
           />
         </div>
 
@@ -53,7 +70,7 @@ const App = () => {
       <h2>Numbers</h2>
 
       <ul>
-        { persons.map((p, index)=> <li key={index}>{p.name}</li>) }
+        { persons.map((p, index)=> <li key={index}>{p.name} {p.number}</li>) }
       </ul>
     </div>
   )
