@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 
+import Filter from './Filter'
+import PersonForm from './PersonForm'
+import Persons from './Persons'
+
 const App = () => {
   const [ persons, setPersons ] = useState([
     { name: 'Arto Hellas', number: '040-123-45-67' },
@@ -49,52 +53,21 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <div>
-        <label htmlFor="search">Filter shown with:</label>
-
-        <input
-          id="search"
-          name="search"
-          value={search}
-          onChange={handleChangeSearch}
-        />
-      </div>
+      <Filter search={search} handleChangeSearch={handleChangeSearch} />
 
       <h2>Add new</h2>
 
-      <form onSubmit={addName}>
-        <div>
-          <label htmlFor="name">Name:</label>
-
-          <input
-            id="name"
-            name="name"
-            value={newName}
-            onChange={handleChangeName}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="number">Number:</label>
-
-          <input
-            id="number"
-            name="number"
-            value={newNumber}
-            onChange={handleChangeNumber}
-          />
-        </div>
-
-        <div>
-          <button type="submit">Add New</button>
-        </div>
-      </form>
+      <PersonForm
+        addName={addName}
+        newName={newName}
+        newNumber={newNumber}
+        handleChangeName={handleChangeName}
+        handleChangeNumber={handleChangeNumber}
+      />
 
       <h2>Numbers</h2>
 
-      <ul>
-        { persons.filter(({name}) => name.match(regex)).map((p, index)=> <li key={index}>{p.name} {p.number}</li>) }
-      </ul>
+      <Persons persons={persons} regex={regex} />
     </div>
   )
 }
