@@ -2,10 +2,14 @@ import React, { useState } from 'react'
 
 const App = () => {
   const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas', number: '040-123-45-67' }
+    { name: 'Arto Hellas', number: '040-123-45-67' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [ search, setSearch ] = useState('')
 
   const includesName = () => {
     for (let i = 0; i < persons.length; i += 1) {
@@ -35,9 +39,28 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleChangeSearch = (event) => {
+    setSearch(event.target.value)
+  }
+
+  let regex = new RegExp(`${search}`, 'g');
+
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <div>
+        <label htmlFor="search">Filter shown with:</label>
+
+        <input
+          id="search"
+          name="search"
+          value={search}
+          onChange={handleChangeSearch}
+        />
+      </div>
+
+      <h2>Add new</h2>
 
       <form onSubmit={addName}>
         <div>
@@ -70,7 +93,7 @@ const App = () => {
       <h2>Numbers</h2>
 
       <ul>
-        { persons.map((p, index)=> <li key={index}>{p.name} {p.number}</li>) }
+        { persons.filter(({name}) => name.match(regex)).map((p, index)=> <li key={index}>{p.name} {p.number}</li>) }
       </ul>
     </div>
   )
