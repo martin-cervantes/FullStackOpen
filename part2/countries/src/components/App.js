@@ -3,9 +3,12 @@ import axios from 'axios'
 
 import Search from './Search'
 import Countries from './Countries'
+import Country from './Country'
 
 const App = () => {
   const [ countries, setCountries ] = useState([])
+  const [ country, setCountry ] = useState(false)
+  const [ index, setIndex ] = useState(0);
   const [ search, setSearch ] = useState('')
 
   useEffect(() => {
@@ -15,11 +18,31 @@ const App = () => {
         .then(response => {
           setCountries(response.data)
         })
-    } 
-  }, [search, countries])
+    }
+  }, [search])
 
   const handleChangeSearch = (event) => {
     setSearch(event.target.value)
+  }
+
+  const show = (index) => {
+    setCountry(true)
+    setIndex(index)
+  }
+
+  const hide = () => {
+    setCountry(false)
+  }
+
+  if (country) {
+    return (
+      <div>
+        <Country country={countries[index]} />
+
+        <button onClick={() => hide()}>Back</button>
+
+      </div>
+    )
   }
 
   return (
@@ -31,7 +54,7 @@ const App = () => {
         handleChangeSearch={handleChangeSearch}
       />
 
-      <Countries countries={countries} />
+      <Countries countries={countries} show={show} />
 
     </div>
   );

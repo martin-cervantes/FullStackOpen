@@ -2,8 +2,8 @@ import React from 'react'
 
 const Country = ({ country }) => (
   <div>
+    <h1>{country.name}</h1>
     <img src={country.flag} width="200rem" alt="flag" />
-    <p>Name: {country.name}</p>
     <p>Capital: {country.capital}</p>
     <p>Language: {country.languages[0].name}</p>
     <p>Population: {country.population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
