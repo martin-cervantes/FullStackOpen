@@ -21,7 +21,22 @@ const App = () => {
 
   const includesName = () => {
     for (let i = 0; i < persons.length; i += 1) {
-      if (persons[i].name === newName) return true
+      if (persons[i].name === newName) {
+        const result = window.confirm(`${persons[i].name} is already added to phonebook, Replace the old number with the new one ??`)
+
+        if (result) {
+          const changedNote = {...persons[i], number: newNumber}
+          const id = changedNote.id
+
+          personsService
+            .update(id, changedNote)
+            .then(response => {
+              setPersons(persons.map(p => p.id !== id ? p : response.data))
+            })
+        }
+
+        return true
+      }
     }
 
     return false
@@ -30,9 +45,7 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
 
-    if (includesName()) {
-      alert(`${newName} is already added to phonebook`)
-    } else {
+    if (!includesName()) {
       const newPerson = {
         name: newName,
         number: newNumber,
