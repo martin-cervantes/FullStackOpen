@@ -33,7 +33,16 @@ const App = () => {
     if (includesName()) {
       alert(`${newName} is already added to phonebook`)
     } else {
-      setPersons([...persons, { name: event.target.name.value, number: event.target.number.value }])
+      const newPerson = {
+        name: newName,
+        number: newNumber,
+      }
+
+      axios
+        .post('http://localhost:3001/persons', newPerson)
+        .then(response => {
+          setPersons([...persons, newPerson])
+        })
       setNewName('')
       setNewNumber('')
     }
