@@ -61,13 +61,28 @@ const App = () => {
     setSearch(event.target.value)
   }
 
+  const handleDelete = (id) => {
+    const result = window.confirm('Are you sure you want to delete this item?')
+
+    if (result) {
+      personsService
+        .drop(id)
+        .then(returnedPersons => {
+          setPersons(persons.filter(p => p.id !== id))
+        })
+    }
+  }
+
   let regex = new RegExp(`${search}`, 'g');
 
   return (
     <div>
       <h2>Phonebook</h2>
 
-      <Filter search={search} handleChangeSearch={handleChangeSearch} />
+      <Filter
+        search={search}
+        handleChangeSearch={handleChangeSearch}
+      />
 
       <h2>Add new</h2>
 
@@ -81,7 +96,11 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons persons={persons} regex={regex} />
+      <Persons
+        persons={persons}
+        regex={regex}
+        handleDelete={handleDelete}
+      />
     </div>
   )
 }
