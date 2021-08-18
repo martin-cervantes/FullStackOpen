@@ -1,0 +1,10 @@
+.alert {
+  border: 2px lightgray solid;
+  border-radius: 10px;
+  color: white;
+  left: 15rem;
+  margin-bottom: 15px;
+  padding: 20px;
+  position: absolute;
+  top: 1.5rem;
+}
