@@ -20,6 +20,7 @@ const App = () => {
       .then(returnedPersons => {
         setPersons(returnedPersons)
       })
+      .catch(error => console.log(error))
   }, [])
 
   const includesName = () => {
@@ -35,10 +36,10 @@ const App = () => {
             .update(id, changedNote)
             .then(response => {
               setPersons(persons.map(p => p.id !== id ? p : response.data))
-              setAlert(false)
-              setMessage('Person successfully updated :)')
-              setTimeout(() => { setMessage(null) }, 5000)
+
+              handlerMessage(false, 'Person successfully updated :)')
             })
+            .catch(error => console.log(error))
         }
 
         return true
@@ -61,13 +62,28 @@ const App = () => {
         .create(newPerson)
         .then(returnedPersons => {
           setPersons([...persons, newPerson])
-          setAlert(false)
-          setMessage('Person successfully created :)')
-          setTimeout(() => { setMessage(null) }, 5000)
+
+          handlerMessage(false , 'Person successfully created :)')
         })
+        .catch(error => handlerMessage(true, 'Person has already been deleted :('))
 
       setNewName('')
       setNewNumber('')
+    }
+  }
+
+  const deleteName = (id) => {
+    const result = window.confirm('Are you sure you want to delete this item?')
+
+    if (result) {
+      personsService
+      .drop(id)
+      .then(returnedPersons => {
+        setPersons(persons.filter(p => p.id !== id))
+
+        handlerMessage(false, 'Person successfully deleted :)')
+      })
+      .catch(error => handlerMessage(true, 'Person has already been deleted :('))
     }
   }
 
@@ -83,19 +99,10 @@ const App = () => {
     setSearch(event.target.value)
   }
 
-  const handleDelete = (id) => {
-    const result = window.confirm('Are you sure you want to delete this item?')
-
-    if (result) {
-      personsService
-        .drop(id)
-        .then(returnedPersons => {
-          setPersons(persons.filter(p => p.id !== id))
-          setAlert(true)
-          setMessage('Person successfully deleted :0')
-          setTimeout(() => { setMessage(null) }, 5000)
-        })
-    }
+  const handlerMessage = (alert, message) => {
+    setAlert(alert)
+    setMessage(message)
+    setTimeout(() => { setMessage(null) }, 5000)
   }
 
   let regex = new RegExp(`${search}`, 'g');
@@ -126,7 +133,7 @@ const App = () => {
       <Persons
         persons={persons}
         regex={regex}
-        handleDelete={handleDelete}
+        deleteName={deleteName}
       />
     </div>
   )

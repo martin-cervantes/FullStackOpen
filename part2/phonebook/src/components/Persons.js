@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Persons = ({ persons, regex, handleDelete }) => (
+const Persons = ({ persons, regex, deleteName }) => (
   <ul>
     {
       persons
@@ -8,7 +8,7 @@ const Persons = ({ persons, regex, handleDelete }) => (
         .map((p, index) => (
           <li key={index}>
             {p.name} {p.number}
-            <button onClick={() => handleDelete(p.id)}>Delete</button>
+            <button onClick={() => deleteName(p.id)}>Delete</button>
           </li>
         ))
     }
