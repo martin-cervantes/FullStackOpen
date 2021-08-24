@@ -30,11 +30,47 @@ const persons = [
   ]
 
 app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
+  const html = `
+    <h1>Persons API</h1>
+    <table>
+      <tr>
+        <th>URL</th>
+        <th>verb</th>
+        <th>functionality</th>
+      </tr>
+      <tr>
+        <td>/api/persons</td>
+        <td>GET</td>
+        <td>fetch all resources in the collection</td>
+      </tr>
+      <tr>
+        <td>/api/persons/:id</td>
+        <td>GET</td>
+        <td>fetch a single resource</td>
+      </tr>
+      <tr>
+        <td>/api/info</td>
+        <td>GET</td>
+        <td>show how many entries are in the collection</td>
+      </tr>
+    </table>
+  `;
+  response.send(html)
 })
 
 app.get('/api/persons', (request, response) => {
   response.json(persons)
+})
+
+app.get('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const person = persons.find(p => p.id === id)
+
+  if (person) {
+    response.json(person)
+  } else {
+    response.status(404).end()
+  }
 })
 
 app.get('/api/info', (request, response) => {
