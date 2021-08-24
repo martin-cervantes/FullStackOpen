@@ -37,6 +37,17 @@ app.get('/api/persons', (request, response) => {
   response.json(persons)
 })
 
+app.get('/api/info', (request, response) => {
+  const currentdate = new Date();
+
+  const datetime = "Last Sync: " + currentdate.getDate() + "/"+(currentdate.getMonth()+1)
+  + "/" + currentdate.getFullYear() + " @ "
+  + currentdate.getHours() + ":"
+  + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+
+  response.send(`<p>Phonebook has info for ${persons.length} people</p><br>${datetime}`)
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
