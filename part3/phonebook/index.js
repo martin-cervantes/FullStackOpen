@@ -38,18 +38,27 @@ app.get('/', (request, response) => {
         <th>verb</th>
         <th>functionality</th>
       </tr>
+
       <tr>
-        <td>/api/persons</td>
+        <td><a href="api/persons">/api/persons</a></td>
         <td>GET</td>
         <td>fetch all resources in the collection</td>
       </tr>
+
       <tr>
-        <td>/api/persons/:id</td>
+        <td><a href="api/persons/1">/api/persons/:id</a></td>
         <td>GET</td>
         <td>fetch a single resource</td>
       </tr>
+
       <tr>
-        <td>/api/info</td>
+        <td><a href="#">/api/persons/:id</a></td>
+        <td>DELETE</td>
+        <td>remove the identified resource</td>
+      </tr>
+
+      <tr>
+        <td><a href="api/info">/api/info</a></td>
         <td>GET</td>
         <td>show how many entries are in the collection</td>
       </tr>
@@ -71,6 +80,13 @@ app.get('/api/persons/:id', (request, response) => {
   } else {
     response.status(404).end()
   }
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  persons = persons.filter(p => p.id !== id)
+
+  response.status(204).end()
 })
 
 app.get('/api/info', (request, response) => {
