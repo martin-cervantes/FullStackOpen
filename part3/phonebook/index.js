@@ -89,8 +89,26 @@ const generateId = () => {
   return maxId + 1
 }
 
+const includesName = (newName) => {
+  for (let i = 0; i < persons.length; i += 1)
+    if (persons[i].name === newName)
+      return true;
+
+  return false
+}
+
 app.post('/api/persons', (request, response) => {
   const body = request.body
+
+  if (!body.name || !body.number) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  } else if (includesName(body.name)) {
+    return response.status(400).json({
+      error: 'name must be unique'
+    })
+  }
 
   const person = {
     name: body.name,
