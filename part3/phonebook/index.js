@@ -1,10 +1,18 @@
 const express = require('express')
-const app = express()
+const bodyParser = require('body-parser');
 const morgan = require('morgan')
 
-app.use(morgan('tiny'));
+const app = express()
 
-const persons = [
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// app.use(morgan('tiny'));
+morgan.token('body', (req, res) => JSON.stringify(req.body));
+app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body - :req[content-length]'));
+
+
+let persons = [
     {
       "id": 1,
       "name": "Arto Hellas",
